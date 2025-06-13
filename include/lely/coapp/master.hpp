@@ -825,7 +825,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
   SubmitRead(uint8_t id, SdoUploadRequest<T>& req) {
     ::std::error_code ec;
     SubmitRead(id, req, ec);
-    if (ec) throw SdoError(id, req.idx, req.subidx, ec, "SubmitRead");
+    if (ec) throw SdoError(id, req.idx, req.subidx, ec, "828::SubmitRead");
   }
 
   /**
@@ -887,7 +887,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
              const ::std::chrono::milliseconds& timeout) {
     ::std::error_code ec;
     SubmitRead<T>(exec, id, idx, subidx, ::std::forward<F>(con), timeout, ec);
-    if (ec) throw SdoError(id, idx, subidx, ec, "SubmitRead");
+    if (ec) throw SdoError(id, idx, subidx, ec, "890::SubmitRead");
   }
 
   /**
@@ -954,7 +954,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
     ::std::error_code ec;
     SubmitBlockRead<T>(exec, id, idx, subidx, ::std::forward<F>(con), timeout,
                        ec);
-    if (ec) throw SdoError(id, idx, subidx, ec, "SubmitBlockRead");
+    if (ec) throw SdoError(id, idx, subidx, ec, "957::SubmitBlockRead");
   }
 
   /**
@@ -1033,7 +1033,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
   SubmitWrite(uint8_t id, SdoDownloadRequest<T>& req) {
     ::std::error_code ec;
     SubmitWrite(id, req, ec);
-    if (ec) throw SdoError(id, req.idx, req.subidx, ec, "SubmitWrite");
+    if (ec) throw SdoError(id, req.idx, req.subidx, ec, "1036::SubmitWrite");
   }
 
   /**
@@ -1097,7 +1097,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
     ::std::error_code ec;
     SubmitWrite(exec, id, idx, subidx, ::std::forward<T>(value),
                 ::std::forward<F>(con), timeout, ec);
-    if (ec) throw SdoError(id, idx, subidx, ec, "SubmitWrite");
+    if (ec) throw SdoError(id, idx, subidx, ec, "1100::SubmitWrite");
   }
 
   /**
@@ -1166,7 +1166,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
     ::std::error_code ec;
     SubmitBlockWrite(exec, id, idx, subidx, ::std::forward<T>(value),
                      ::std::forward<F>(con), timeout, ec);
-    if (ec) throw SdoError(id, idx, subidx, ec, "SubmitBlockWrite");
+    if (ec) throw SdoError(id, idx, subidx, ec, "1169::SubmitBlockWrite");
   }
 
   /**
@@ -1294,7 +1294,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
                  const ::std::chrono::milliseconds& timeout) {
     ::std::error_code ec;
     SubmitWriteDcf(exec, id, begin, end, ::std::forward<F>(con), timeout, ec);
-    if (ec) throw SdoError(id, 0, 0, ec, "SubmitWriteDcf");
+    if (ec) throw SdoError(id, 0, 0, ec, "1297::SubmitWriteDcf");
   }
 
   /**
@@ -1370,7 +1370,7 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
                  const ::std::chrono::milliseconds& timeout) {
     ::std::error_code ec;
     SubmitWriteDcf(exec, id, path, ::std::forward<F>(con), timeout, ec);
-    if (ec) throw SdoError(id, 0, 0, ec, "SubmitWriteDcf");
+    if (ec) throw SdoError(id, 0, 0, ec, "1373::SubmitWriteDcf");
   }
 
   /**
