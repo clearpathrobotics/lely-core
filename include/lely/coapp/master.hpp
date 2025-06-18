@@ -1015,7 +1015,15 @@ class BasicMaster : public Node, protected ::std::map<uint8_t, DriverBase*> {
     ec.clear();
     auto sdo = GetSdo(id);
     if (sdo) {
-      SetTime();
+      try
+      {
+        SetTime();
+      }
+      catch (...)
+      {
+        ec = SdoErrc::ERROR;
+        return;
+      }
       sdo->SubmitUpload<T>(exec, idx, subidx, ::std::forward<F>(con), block,
                            timeout);
     } else {
