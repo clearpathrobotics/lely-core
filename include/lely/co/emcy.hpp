@@ -3,7 +3,7 @@
  * interface of the emergency (EMCY) object. See lely/co/emcy.h for the C
  * interface.
  *
- * @copyright 2017-2020 Lely Industries N.V.
+ * @copyright 2017-2024 Lely Industries N.V.
  *
  * @author J. S. Seldenthuis <jseldenthuis@lely.com>
  *
@@ -103,6 +103,16 @@ class COEmcy : public incomplete_c_type<__co_emcy> {
   void
   peek(co_unsigned16_t* peec = 0, co_unsigned8_t* per = 0) const noexcept {
     co_emcy_peek(this, peec, per);
+  }
+
+  int
+  remove(size_t n) noexcept {
+    return co_emcy_remove(this, n);
+  }
+
+  ssize_t
+  find(co_unsigned16_t eec) const noexcept {
+    return co_emcy_find(this, eec);
   }
 
   int

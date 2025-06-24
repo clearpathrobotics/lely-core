@@ -4,7 +4,7 @@
  *
  * @see lely/util/mkjmp.h
  *
- * @copyright 2018-2019 Lely Industries N.V.
+ * @copyright 2018-2024 Lely Industries N.V.
  *
  * @author J. S. Seldenthuis <jseldenthuis@lely.com>
  *
@@ -187,7 +187,8 @@ sigctx_func(void)
 	void (*func)(void *) = sigctx.func;
 	void *arg = sigctx.arg;
 
-	// Save the current environment, on succes, and jump back to sigmkjmp().
+	// Save the current environment, on success, and jump back to
+	// sigmkjmp().
 	if (!sigsetjmp(sigctx.penv, sigctx.savemask))
 		siglongjmp(sigctx.env, 1);
 

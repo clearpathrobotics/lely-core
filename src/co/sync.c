@@ -4,7 +4,7 @@
  *
  * @see lely/co/sync.h
  *
- * @copyright 2017-2022 Lely Industries N.V.
+ * @copyright 2017-2024 Lely Industries N.V.
  *
  * @author J. S. Seldenthuis <jseldenthuis@lely.com>
  *
@@ -288,6 +288,9 @@ co_sync_stop(co_sync_t *sync)
 
 	if (sync->stopped)
 		return;
+
+	can_timer_stop(sync->timer);
+	can_recv_stop(sync->recv);
 
 	// Remove the download indication function for the synchronous counter
 	// overflow value object.

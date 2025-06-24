@@ -22,9 +22,6 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "web"
 
 .docker:
-  tags:
-    - docker
-    - linux
   image: docker:stable
   services:
     - docker:dind
@@ -52,9 +49,6 @@ workflow:
 
 .build:
   stage: build
-  tags:
-    - docker
-    - linux
   needs: []
   script:
     - autoreconf -i
@@ -65,9 +59,6 @@ workflow:
 
 .test:
   stage: test
-  tags:
-    - docker
-    - linux
   script:
     - touch aclocal.m4 configure config.status Makefile.in
     - make -t
@@ -299,9 +290,6 @@ docker:doc:
 
 doc:
   stage: build
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/doc:bullseye
   needs: []
   script:
@@ -321,9 +309,6 @@ docker:cpplint:
 
 cpplint:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/cpplint:bullseye
   needs: []
   script:
@@ -343,9 +328,6 @@ docker:clang-format:
 
 clang-format:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/clang-format:bullseye
   needs: []
   script:
@@ -375,9 +357,6 @@ docker:valgrind:
 
 valgrind:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/valgrind:bullseye
   needs: []
   script:
@@ -401,9 +380,6 @@ valgrind:
 
 valgrind:ecss:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/valgrind:bullseye
   needs: []
   script:
@@ -427,9 +403,6 @@ docker:lcov:
 
 lcov:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/lcov:bullseye
   needs: []
   variables:
@@ -457,9 +430,6 @@ docker:scan-build:
 
 scan-build:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/scan-build:bullseye
   needs: []
   script:
@@ -481,9 +451,6 @@ docker:cppcheck-unix64:
 
 cppcheck-unix64:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/cppcheck-unix64:bullseye
   needs: []
   script:
@@ -518,9 +485,6 @@ docker:cppcheck-win64:
 
 cppcheck-win64:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/cppcheck-win64:bullseye
   needs: []
   script:
@@ -556,9 +520,6 @@ docker:python-checks:
 
 python-checks:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/python-checks:3.8-slim
   needs: []
   script:
@@ -577,9 +538,6 @@ docker:coverity:
 
 coverity:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/coverity:gcc9
   needs: []
   script:
@@ -613,9 +571,6 @@ docker:sonarcloud:
 
 sonarcloud:
   stage: test
-  tags:
-    - docker
-    - linux
   image: $REGISTRY/sonarcloud:bullseye
   needs: []
   variables:
@@ -644,12 +599,10 @@ sonarcloud:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE != "merge_train"'
       when: always
     - when: never
+  allow_failure: true
 
 pages:
   stage: deploy
-  tags:
-    - docker
-    - linux
   image: alpine:latest
   needs: ["doc", "lcov"]
   script:

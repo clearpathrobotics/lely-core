@@ -2,7 +2,7 @@
  * This header file is part of the CANopen library; it contains the emergency
  * (EMCY) object declarations.
  *
- * @copyright 2020 Lely Industries N.V.
+ * @copyright 2017-2024 Lely Industries N.V.
  *
  * @author J. S. Seldenthuis <jseldenthuis@lely.com>
  *
@@ -158,6 +158,35 @@ int co_emcy_pop(co_emcy_t *emcy, co_unsigned16_t *peec, co_unsigned8_t *per);
  */
 void co_emcy_peek(const co_emcy_t *emcy, co_unsigned16_t *peec,
 		co_unsigned8_t *per);
+
+/**
+ * Pops a CANopen EMCY message from the stack, even if it is not the most
+ * recent message, and broadcasts an 'error reset' message if the EMCY producer
+ * service is active.
+ *
+ * @param emcy a pointer to an EMCY producer service.
+ * @param n    the index of the message to be popped, where 0 is the most recent
+ *             message.
+ *
+ * @returns 0 on success, or -1 on error. In the latter case, the error number
+ * can be obtained with get_errc().
+ *
+ * @see co_emcy_find()
+ */
+int co_emcy_remove(co_emcy_t *emcy, size_t n);
+
+/**
+ * Finds a CANopen EMCY message in the stack. This function returns the index of
+ * the first matching message in LIFO order.
+ *
+ * @param emcy a pointer to an EMCY consumer service.
+ * @param eec  the emergency error code of the message to be found.
+ *
+ * @returns the index of the first matching message, or -1 if not found.
+ *
+ * @see co_emcy_remove()
+ */
+ssize_t co_emcy_find(const co_emcy_t *emcy, co_unsigned16_t eec);
 
 /**
  * Clears the CANopen EMCY message stack and broadcasts the 'error reset/no

@@ -4,7 +4,7 @@
  *
  * @see lely/co/nmt.h
  *
- * @copyright 2017-2023 Lely Industries N.V.
+ * @copyright 2017-2024 Lely Industries N.V.
  *
  * @author J. S. Seldenthuis <jseldenthuis@lely.com>
  *
@@ -1374,8 +1374,16 @@ co_nmt_on_lg(co_nmt_t *nmt, int state)
 {
 	assert(nmt);
 
-	if (state == CO_NMT_EC_OCCURRED)
+	if (state == CO_NMT_EC_OCCURRED) {
 		co_nmt_on_err(nmt, 0x8130, 0x10, NULL);
+	} else if (state == CO_NMT_EC_RESOLVED) {
+		if (nmt->srv.emcy) {
+			// Remove the EMCY message from the stack.
+			ssize_t n = co_emcy_find(nmt->srv.emcy, 0x8130);
+			if (n >= 0)
+				co_emcy_remove(nmt->srv.emcy, n);
+		}
+	}
 }
 
 #endif // !LELY_NO_CO_MASTER
@@ -1408,7 +1416,10 @@ co_nmt_on_hb(co_nmt_t *nmt, co_unsigned8_t id, int state, int reason)
 	if (!id || id > CO_NUM_NODES)
 		return;
 
-	if (state == CO_NMT_EC_OCCURRED && reason == CO_NMT_EC_TIMEOUT) {
+	if (reason != CO_NMT_EC_TIMEOUT)
+		return;
+
+	if (state == CO_NMT_EC_OCCURRED) {
 #if !LELY_NO_CO_MASTER
 		if (co_nmt_is_master(nmt)) {
 			co_nmt_node_err_ind(nmt, id);
@@ -1416,6 +1427,17 @@ co_nmt_on_hb(co_nmt_t *nmt, co_unsigned8_t id, int state, int reason)
 		}
 #endif
 		co_nmt_on_err(nmt, 0x8130, 0x10, NULL);
+	} else if (state == CO_NMT_EC_RESOLVED) {
+#if !LELY_NO_CO_MASTER
+		if (co_nmt_is_master(nmt))
+			return;
+#endif
+		if (nmt->srv.emcy) {
+			// Remove the EMCY message from the stack.
+			ssize_t n = co_emcy_find(nmt->srv.emcy, 0x8130);
+			if (n >= 0)
+				co_emcy_remove(nmt->srv.emcy, n);
+		}
 	}
 }
 
